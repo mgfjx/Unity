@@ -37,7 +37,7 @@
     if (hexString.length != 6) return defaultColor;
     
     NSError *error;
-    NSRegularExpression *regular = [NSRegularExpression regularExpressionWithPattern:@"[^A-F]" options:NSRegularExpressionCaseInsensitive error:&error];
+    NSRegularExpression *regular = [NSRegularExpression regularExpressionWithPattern:@"[^A-F|^0-9]" options:NSRegularExpressionCaseInsensitive error:&error];
     
     NSArray *result = [regular matchesInString:hexString options:NSMatchingReportCompletion range:NSMakeRange(0, hexString.length)];
     if (result.count > 0) return defaultColor;
