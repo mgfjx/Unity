@@ -8,7 +8,7 @@
 
 #import "TransitionManager.h"
 
-#define TRANSITIONDURATION 1
+#define TRANSITIONDURATION 0.5
 
 @interface TransitionManager ()
 
@@ -77,7 +77,7 @@
     toVC.view.frame = CGRectMake(containerView.bounds.size.width, 0, containerView.bounds.size.width, containerView.bounds.size.height);
     
     [UIView animateWithDuration:TRANSITIONDURATION animations:^{
-        toVC.view.frame = CGRectMake(0, 0, containerView.width, containerView.height);
+        toVC.view.frame = CGRectMake(0, 0, containerView.bounds.size.width, containerView.bounds.size.height);
     } completion:^(BOOL finished) {
         //使用如下代码标记整个转场过程是否正常完成[transitionContext transitionWasCancelled]代表手势是否取消了，如果取消了就传NO表示转场失败，反之亦然，如果不用手势present的话直接传YES也是可以的，但是无论如何我们都必须标记转场的状态，系统才知道处理转场后的操作，否者认为你一直还在转场中，会出现无法交互的情况，切记！
         [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
@@ -116,9 +116,6 @@
 
 - (void)pushAnimation:(id<UIViewControllerContextTransitioning>)transitionContext{
     
-//    [self animations:transitionContext];return;
-    
-    
     UIViewController *toVC = (UIViewController*)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     UIViewController *fromVC = (UIViewController*)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIView * containerView = [transitionContext containerView];
@@ -130,7 +127,7 @@
     toVC.view.frame = CGRectMake(width, 0, width, height);
     
     [UIView animateWithDuration:TRANSITIONDURATION animations:^{
-        toVC.view.frame = CGRectMake(0, 0, containerView.width, containerView.height);
+        toVC.view.frame = CGRectMake(0, 0, containerView.bounds.size.width, containerView.bounds.size.height);
     } completion:^(BOOL finished) {
         //使用如下代码标记整个转场过程是否正常完成[transitionContext transitionWasCancelled]代表手势是否取消了，如果取消了就传NO表示转场失败，反之亦然，如果不用手势present的话直接传YES也是可以的，但是无论如何我们都必须标记转场的状态，系统才知道处理转场后的操作，否者认为你一直还在转场中，会出现无法交互的情况，切记！
         //由于加入了手势必须判断
@@ -160,7 +157,8 @@
     fromVC.view.frame = CGRectMake(0, 0, width, height);
     
     [UIView animateWithDuration:TRANSITIONDURATION animations:^{
-        fromVC.view.frame = CGRectMake(width, 0, width, height);
+//        fromVC.view.frame = CGRectMake(width, 0, width, height);
+        fromVC.view.transform = CGAffineTransformMakeRotation(M_PI);
     } completion:^(BOOL finished) {
         //由于加入了手势必须判断
         if ([transitionContext transitionWasCancelled]) {
