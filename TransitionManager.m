@@ -157,8 +157,8 @@
     fromVC.view.frame = CGRectMake(0, 0, width, height);
     
     [UIView animateWithDuration:TRANSITIONDURATION animations:^{
-//        fromVC.view.frame = CGRectMake(width, 0, width, height);
-        fromVC.view.transform = CGAffineTransformMakeRotation(M_PI);
+        fromVC.view.frame = CGRectMake(width, 0, width, height);
+//        fromVC.view.transform = CGAffineTransformMakeRotation(M_PI);
     } completion:^(BOOL finished) {
         //由于加入了手势必须判断
         if ([transitionContext transitionWasCancelled]) {
@@ -173,3 +173,131 @@
 }
 
 @end
+
+#pragma mark - 手势驱动类
+
+@interface InteractiveTransition ()
+
+@property (nonatomic, weak) UIViewController *vc;
+@property (nonatomic, assign) TransitionType type;
+@property (nonatomic, assign) TransitionGestureDirection direction;
+
+@end
+
+@implementation InteractiveTransition
+
++ (instancetype)interactiveTransitionWithTransitionType:(TransitionType)type GestureDirection:(TransitionGestureDirection)direction{
+    return [[InteractiveTransition alloc] initWithTransitionType:type GestureDirection:direction];
+}
+
+- (instancetype)initWithTransitionType:(TransitionType)type GestureDirection:(TransitionGestureDirection)direction{
+    self = [super init];
+    if (self) {
+        _type = type;
+        _direction = direction;
+    }
+    return self;
+}
+
+- (void)addPanGestureForViewController:(UIViewController *)viewController{
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+    self.vc = viewController;
+    [viewController.view addGestureRecognizer:pan];
+}
+
+- (void)handleGesture:(UIPanGestureRecognizer *)panGesture{
+    
+    CGFloat persent;//手势百分比
+    switch (_direction) {
+        case TransitionGestureDirectionLeft:{
+            CGFloat transitionX = -[panGesture translationInView:panGesture.view].x;
+            persent = transitionX / panGesture.view.frame.size.width;
+        }
+            break;
+            
+        case TransitionGestureDirectionRight:{
+            CGFloat transitionX = [panGesture translationInView:panGesture.view].x;
+            persent = transitionX / panGesture.view.frame.size.width;
+        }
+            break;
+            
+        case TransitionGestureDirectionUp:{
+            CGFloat transitionY = -[panGesture translationInView:panGesture.view].y;
+            persent = transitionY / panGesture.view.frame.size.height;
+        }
+            break;
+            
+        case TransitionGestureDirectionDown:{
+            CGFloat transitionY = [panGesture translationInView:panGesture.view].y;
+            persent = transitionY / panGesture.view.frame.size.height;
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    switch (panGesture.state) {
+        case UIGestureRecognizerStateBegan:
+            self.isInteractionBegin = YES;
+            [self startGesture];
+            break;
+            
+        case UIGestureRecognizerStateChanged:
+            //手势过程中，通过updateInteractiveTransition设置pop过程进行的百分比
+            [self updateInteractiveTransition:persent];
+            NSLog(@"percent == %f",persent);
+            break;
+            
+        case UIGestureRecognizerStateEnded:
+            //手势完成后结束标记并且判断移动距离是否过半，过则finishInteractiveTransition完成转场操作，否者取消转场操作
+            self.isInteractionBegin = NO;
+            if (persent > 0.5) {
+                [self finishInteractiveTransition];
+            }else{
+                [self cancelInteractiveTransition];
+            }
+            break;
+            
+        default:
+            break;
+    }
+    
+}
+
+- (void)startGesture{
+    switch (_type) {
+        case TransitionTypePresent:{
+            if (_presentConifg) {
+                _presentConifg();
+            }
+        }
+            break;
+            
+        case TransitionTypeDismiss:
+            [_vc dismissViewControllerAnimated:YES completion:nil];
+            break;
+            
+        case TransitionTypePush:{
+            if (_pushConifg) {
+                _pushConifg();
+            }
+        }
+            break;
+        case TransitionTypePop:
+            [_vc.navigationController popViewControllerAnimated:YES];
+            break;
+    }
+}
+
+@end
+
+
+
+
+
+
+
+
+
+
