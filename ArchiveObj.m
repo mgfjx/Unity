@@ -6,11 +6,11 @@
 //  Copyright © 2017年 XXL. All rights reserved.
 //
 
-#import "Archive.h"
+#import "ArchiveObj.h"
 #import <objc/runtime.h>
 
 @implementation ArchiveObj
-
+//继承的属性无法获取
 - (void)encodeWithCoder:(NSCoder *)aCoder{
     
     unsigned int outCount;
@@ -22,7 +22,7 @@
         id value = object_getIvar(self, var);
         [aCoder encodeObject:value forKey:key];
     }
-    
+    free(ivars);
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder{
@@ -37,6 +37,7 @@
             id value = [aDecoder decodeObjectForKey:key];
             [self setValue:value forKey:key];
         }
+        free(ivars);
     }
     return self;
 }
