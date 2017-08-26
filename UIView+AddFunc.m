@@ -10,6 +10,7 @@
 
 @implementation UIView (SetFrame)
 
+// screenshot
 - (UIImage *)snapshotImage{
     
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.opaque, 0);
@@ -19,7 +20,7 @@
     
     return snap;
 }
-
+// shadow
 - (void)setLayerShadow:(UIColor *)color offset:(CGSize)offset radius:(CGFloat)radius{
     self.layer.shadowColor = color.CGColor;
     self.layer.shadowOffset = offset;
@@ -51,7 +52,9 @@
     return self.frame.origin.x;
 }
 - (void)setX:(CGFloat)x{
-    self.frame = CGRectMake(x, self.y, self.width, self.height);
+    CGRect frame = self.frame;
+    frame.origin.x = x;
+    self.frame = frame;
 }
 
 //y
@@ -59,7 +62,9 @@
     return self.frame.origin.y;
 }
 - (void)setY:(CGFloat)y{
-    self.frame = CGRectMake(self.x, y, self.width, self.height);
+    CGRect frame = self.frame;
+    frame.origin.y = y;
+    self.frame = frame;
 }
 
 //width
@@ -67,7 +72,9 @@
     return self.frame.size.width;
 }
 - (void)setWidth:(CGFloat)width{
-    self.frame = CGRectMake(self.x, self.y, width, self.height);
+    CGRect frame = self.frame;
+    frame.size.width = width;
+    self.frame = frame;
 }
 
 //height
@@ -75,7 +82,9 @@
     return self.frame.size.height;
 }
 - (void)setHeight:(CGFloat)height{
-    self.frame = CGRectMake(self.x, self.y, self.width, height);
+    CGRect frame = self.frame;
+    frame.size.height = height;
+    self.frame = frame;
 }
 
 //size
@@ -84,7 +93,9 @@
 }
 
 - (void)setSize:(CGSize)size{
-    self.frame = CGRectMake(self.x, self.y, size.width, size.height);
+    CGRect frame = self.frame;
+    frame.size = size;
+    self.frame = frame;
 }
 
 //origin
@@ -93,7 +104,30 @@
 }
 
 - (void)setOrigin:(CGPoint)origin{
-    self.frame = CGRectMake(origin.x, origin.y, self.width, self.height);
+    CGRect frame = self.frame;
+    frame.origin = origin;
+    self.frame = frame;
+}
+
+// center
+- (void)setCenterX:(CGFloat)centerX {
+    CGPoint point = self.center;
+    point.x = centerX;
+    self.center = point;
+}
+
+- (CGFloat)centerX{
+    return self.center.x;
+}
+
+- (void)setCenterY:(CGFloat)centerY {
+    CGPoint point = self.center;
+    point.y = centerY;
+    self.center = point;
+}
+
+- (CGFloat)centerY {
+    return self.center.y;
 }
 
 #pragma <#arguments#>
