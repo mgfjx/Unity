@@ -36,7 +36,15 @@ static id singleton = nil;\
 \
 + (instancetype)share##methodName{\
     return [[self alloc] init];\
-}
+}\
+\
+- (id)copyWithZone:(NSZone *)zone{\
+    return singleton;\
+}\
+\
+- (id)mutableCopyWithZone:(NSZone *)zone{\
+    return singleton;\
+}\
 
 #else
 
@@ -74,7 +82,15 @@ static id singleton = nil;\
 \
 + (instancetype)share##methodName{\
     return [[self alloc] init];\
-}
+}\
+\
+- (id)copyWithZone:(NSZone *)zone{\
+    return singleton;\
+}\
+\
+- (id)mutableCopyWithZone:(NSZone *)zone{\
+    return singleton;\
+}\
 
 #endif
 
