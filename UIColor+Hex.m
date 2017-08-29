@@ -101,7 +101,7 @@
     
     NSString *colorString = [NSString stringWithCString:ch encoding:NSUTF8StringEncoding];
     
-    return [NSString stringWithFormat:@"0x%@",colorString ];
+    return colorString;
 }
 
 @end
