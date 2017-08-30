@@ -9,6 +9,39 @@
 import UIKit
 
 extension UIColor {
+    
+    // hex color string
+    var string: String {
+        get {
+            let cgColor = self.cgColor;
+            
+            var red = 0, green = 0, blue = 0;
+            
+            let size = cgColor.numberOfComponents;
+            if (size == 4) {
+                let components = cgColor.components;
+                red = Int(floor(components![0] * 255));
+                green = Int(floor(components![1] * 255));
+                blue = Int(floor(components![2] * 255));
+            }
+            
+            if(size == 2){
+                let components = cgColor.components;
+                red = Int(floor(components![0] * 255));
+                green = red;
+                blue = red;
+            }
+            
+            let hexNumber = (red << 16) | (green << 8) | blue;
+            let ch = UnsafeMutablePointer<Int8>.allocate(capacity: 0);
+            _ = snprintf(ptr: ch, 7, "%06X", hexNumber);
+            
+            let str = String.init(cString: ch);
+            
+            return str;
+        }
+    }
+    
     // MARK: hex color
     class func color(hexNumber: UInt32, alpha: CGFloat) -> UIColor {
         if (hexNumber > 0xFFFFFF) {return UIColor.black};
@@ -68,35 +101,6 @@ extension UIColor {
     
     class func randomColor() -> UIColor {
         return UIColor.randomColor(alpha: 1.0);
-    }
-    
-    func string() -> String {
-        let cgColor = self.cgColor;
-        
-        var red = 0, green = 0, blue = 0;
-        
-        let size = cgColor.numberOfComponents;
-        if (size == 4) {
-            let components = cgColor.components;
-            red = Int(floor(components![0] * 255));
-            green = Int(floor(components![1] * 255));
-            blue = Int(floor(components![2] * 255));
-        }
-        
-        if(size == 2){
-            let components = cgColor.components;
-            red = Int(floor(components![0] * 255));
-            green = red;
-            blue = red;
-        }
-        
-        let hexNumber = (red << 16) | (green << 8) | blue;
-        let ch = UnsafeMutablePointer<Int8>.allocate(capacity: 0);
-        _ = snprintf(ptr: ch, 7, "%06X", hexNumber);
-        
-        let str = String.init(cString: ch);
-        
-        return str;
     }
     
     

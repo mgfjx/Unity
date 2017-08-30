@@ -10,84 +10,93 @@ import UIKit
 
 extension UIView {
     
-    func x() -> CGFloat {
-        return self.frame.origin.x;
+    // frame cneter
+    var x: CGFloat {
+        get {
+            return self.frame.origin.x
+        }
+        set{
+            var frame = self.frame;
+            frame.origin.x = CGFloat(newValue);
+            self.frame = frame;
+        }
     }
     
-    func setX(x: CFloat) -> Void {
-        var frame = self.frame;
-        frame.origin.x = CGFloat(x);
-        self.frame = frame;
+    var y: CGFloat {
+        get {
+            return self.frame.origin.y
+        }
+        set{
+            var frame = self.frame;
+            frame.origin.y = CGFloat(newValue);
+            self.frame = frame;
+        }
     }
     
-    func y() -> CGFloat {
-        return self.frame.origin.y;
+    var width: CGFloat {
+        get {
+            return self.frame.size.width;
+        }
+        set{
+            var frame = self.frame;
+            frame.size.width = CGFloat(newValue);
+            self.frame = frame;
+        }
     }
     
-    func setY(y: CFloat) -> Void {
-        var frame = self.frame;
-        frame.origin.y = CGFloat(y);
-        self.frame = frame;
+    var height: CGFloat {
+        get {
+            return self.frame.size.height;
+        }
+        set{
+            var frame = self.frame;
+            frame.size.height = CGFloat(newValue);
+            self.frame = frame;
+        }
     }
     
-    func width() -> CGFloat {
-        return self.frame.size.width;
+    var origin: CGPoint {
+        get {
+            return self.frame.origin;
+        }
+        set{
+            var frame = self.frame;
+            frame.origin = newValue;
+            self.frame = frame;
+        }
     }
     
-    func setWidth(width: CFloat) -> Void {
-        var frame = self.frame;
-        frame.size.width = CGFloat(width);
-        self.frame = frame;
+    var size: CGSize {
+        get {
+            return self.frame.size;
+        }
+        set{
+            var frame = self.frame;
+            frame.size = newValue;
+            self.frame = frame;
+        }
     }
     
-    func height() -> CGFloat {
-        return self.frame.size.height;
+    var centerX: CGFloat {
+        get {
+            return self.center.x;
+        }
+        set{
+            var center = self.center;
+            center.x = CGFloat(newValue);
+            self.center = center;
+        }
     }
     
-    func setHeight(height: CFloat) -> Void {
-        var frame = self.frame;
-        frame.size.height = CGFloat(height);
-        self.frame = frame;
-    }
-    
-    func origin() -> CGPoint {
-        return self.frame.origin;
-    }
-    
-    func setOrigin(origin: CGPoint) -> Void {
-        var frame = self.frame;
-        frame.origin = origin;
-        self.frame = frame;
-    }
-    
-    func size() -> CGSize {
-        return self.frame.size;
-    }
-    
-    func setSize(size: CGSize) -> Void {
-        var frame = self.frame;
-        frame.size = size;
-        self.frame = frame;
-    }
-    
-    func centerX() -> CGFloat {
-        return self.center.x;
-    }
-    
-    func setCenterX(centerX: CGFloat) -> Void {
-        var center = self.center;
-        center.x = CGFloat(centerX);
-        self.center = center;
-    }
-    
-    func centerY() -> CGFloat {
-        return self.center.y;
-    }
-    
-    func setCenterY(centerY: CGFloat) -> Void {
-        var center = self.center;
-        center.x = CGFloat(centerY);
-        self.center = center;
+    var centerY: CGFloat {
+        get {
+            return self.center.y;
+        }
+        set{
+            var center = self.center;
+            center.y = CGFloat(newValue);
+            self.center = center;
+        }
     }
     
     // screenshot
