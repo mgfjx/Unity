@@ -99,6 +99,20 @@ extension UIView {
         }
     }
     
+    var viewController: UIViewController? {
+        get {
+            var view = self.superview;
+            while view != nil {
+                let next = view?.next;
+                if (next?.isKind(of: UIViewController.classForCoder()))! {
+                    return next as? UIViewController;
+                }
+                view = view?.superview;
+            }
+            return nil;
+        }
+    }
+    
     // screenshot
     func snapshotImage() -> UIImage {
         UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.isOpaque, 0);
@@ -123,5 +137,7 @@ extension UIView {
             self.subviews.last?.removeFromSuperview();
         }
     }
+    
+    
     
 }
